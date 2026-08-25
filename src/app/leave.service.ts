@@ -24,21 +24,21 @@ export interface LeaveRecord {
   reason: string;
 }
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://localhost:8080/Leave/api';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveService {
   constructor(private http: HttpClient) {}
 
   getLeaveTypes(): Observable<LeaveType[]> {
-    return this.http.get<LeaveType[]>(`${API_URL}/leavetypes`);
+    return this.http.get<LeaveType[]>(`${API_URL}/leavetypes.php`);
   }
 
   getLeavesByEmployee(employeeid: string): Observable<LeaveRecord[]> {
-    return this.http.get<LeaveRecord[]>(`${API_URL}/leaves/${employeeid}`);
+    return this.http.get<LeaveRecord[]>(`${API_URL}/leaves.php`, { params: { employeeid } });
   }
 
   submitLeave(request: LeaveRequest): Observable<{ leaveid: string }> {
-    return this.http.post<{ leaveid: string }>(`${API_URL}/leave`, request);
+    return this.http.post<{ leaveid: string }>(`${API_URL}/leave.php`, request);
   }
 }

@@ -8,7 +8,7 @@ export interface Employee {
   managerid: string | null;
 }
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://localhost:8080/Leave/api';
 const STORAGE_KEY = 'leave_employee';
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +17,7 @@ export class AuthService {
 
   login(employeeid: string, password: string): Observable<Employee> {
     return this.http
-      .post<Employee>(`${API_URL}/login`, { employeeid, password })
+      .post<Employee>(`${API_URL}/login.php`, { employeeid, password })
       .pipe(tap((employee) => this.setCurrentEmployee(employee)));
   }
 
