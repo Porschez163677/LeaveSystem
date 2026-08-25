@@ -1,0 +1,66 @@
+@if (employee) {
+  <h2>แจ้งลา</h2>
+  <p>ผู้ขอลา: {{ employee.fullname }} ({{ employee.employeeid }})</p>
+  <button type="button" (click)="logout()">ออกจากระบบ</button>
+
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label for="leaveFromDate">วันที่เริ่มลา</label>
+      <input id="leaveFromDate" name="leaveFromDate" type="date" [(ngModel)]="leaveFromDate" required />
+    </div>
+    <div>
+      <label for="leaveToDate">วันที่สิ้นสุดการลา</label>
+      <input id="leaveToDate" name="leaveToDate" type="date" [(ngModel)]="leaveToDate" required />
+    </div>
+    <div>
+      <label for="typeid">ประเภทการลา</label>
+      <select id="typeid" name="typeid" [(ngModel)]="typeid" required>
+        <option value="" disabled>-- เลือกประเภทการลา --</option>
+        @for (type of leaveTypes; track type.typeid) {
+          <option [value]="type.typeid">{{ type.typename }}</option>
+        }
+      </select>
+    </div>
+    <div>
+      <label for="reason">เหตุผล</label>
+      <textarea id="reason" name="reason" [(ngModel)]="reason"></textarea>
+    </div>
+
+    @if (errorMessage) {
+      <p>{{ errorMessage }}</p>
+    }
+    @if (successMessage) {
+      <p>{{ successMessage }}</p>
+    }
+
+    <button type="submit">ส่งใบลา</button>
+  </form>
+
+  <h3>ประวัติการลา</h3>
+  @if (leaves.length === 0) {
+    <p>ยังไม่มีประวัติการลา</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>เลขที่ใบลา</th>
+          <th>ประเภท</th>
+          <th>วันที่เริ่ม</th>
+          <th>วันที่สิ้นสุด</th>
+          <th>เหตุผล</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (leave of leaves; track leave.leaveid) {
+          <tr>
+            <td>{{ leave.leaveid }}</td>
+            <td>{{ leave.typename }}</td>
+            <td>{{ leave.leave_from_date }}</td>
+            <td>{{ leave.leave_to_date }}</td>
+            <td>{{ leave.reason }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+}

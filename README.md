@@ -1,59 +1,28 @@
-# Leave
+# LeaveSystem
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+Employee leave-request system: Angular frontend + Express/MySQL backend.
 
-## Development server
+## Structure
 
-To start a local development server, run:
+- `src/` — Angular app (login page, leave request page)
+- `server/` — Express API that talks to the `db_leave` MySQL/MariaDB database
+- `server/db_leave.sql` — database schema + seed data (import into MySQL/MariaDB, e.g. via phpMyAdmin)
 
-```bash
-ng serve
-```
+## Setup
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+1. Import `server/db_leave.sql` into a local MySQL/MariaDB server (e.g. XAMPP), creating the `db_leave` database.
+2. Backend:
+   ```
+   cd server
+   npm install
+   node index.js
+   ```
+   Runs the API on `http://localhost:3000`. Configure `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` env vars if your DB isn't the XAMPP default (root, no password, port 3306).
+3. Frontend:
+   ```
+   npm install
+   npx ng serve
+   ```
+   Runs the app on `http://localhost:4200` (or another port if 4200 is taken).
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Login with an `employeeid`/`password` pair from `tb_employee`, then submit a leave request — leave types are read from `tb_leavetype`.
